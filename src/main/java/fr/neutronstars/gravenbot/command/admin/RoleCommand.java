@@ -7,7 +7,6 @@ import fr.neutronstars.gravenbot.utils.Language;
 import fr.neutronstars.gravenbot.utils.RoleManager;
 import net.dv8tion.jda.core.entities.*;
 
-import java.util.List;
 import java.util.Map;
 
 public class RoleCommand extends Command

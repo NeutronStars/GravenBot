@@ -3,12 +3,10 @@ package fr.neutronstars.gravenbot.jda;
 import fr.neutronstars.gravenbot.GravenBot;
 import fr.neutronstars.gravenbot.command.CommandManager;
 import fr.neutronstars.gravenbot.utils.Language;
+import fr.neutronstars.gravenbot.utils.QuizManager;
 import fr.neutronstars.gravenbot.utils.RoleManager;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.PermissionOverride;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
@@ -27,7 +25,16 @@ public class JDAListener extends ListenerAdapter
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
     {
-        if(event.getAuthor().isBot() || event.getGuild() == null || event.getGuild().getIdLong() != GravenBot.getGuildId()) return;
+        if(event.getAuthor().isBot()) return;
+
+        if(event.getGuild() == null)
+        {
+            if(QuizManager.hasQuizUser(event.getAuthor()))
+                QuizManager.receiveResponse(event.getAuthor(), event.getMessage().getContentRaw());
+            return;
+        }
+
+        if(event.getGuild().getIdLong() != GravenBot.getGuildId()) return;
 
         String message = event.getMessage().getContentRaw();
         String[] commands = new String[0];
@@ -96,21 +103,56 @@ public class JDAListener extends ListenerAdapter
     {
         if(event.getUser().isBot() || event.getGuild() == null || event.getGuild().getIdLong() != GravenBot.getGuildId()) return;
 
-        if(event.getMessageIdLong() == GravenBot.getConfig().getLong("role_message"))
+        if(event.getChannel().getIdLong() == QuizManager.getQuizChannel())
         {
-            RoleManager.apply(event.getGuild(), event.getMember(), event.getReactionEmote().getId() != null ? String.valueOf(event.getReactionEmote().getIdLong()) : event.getReactionEmote().getName(), true);
+            if(GravenBot.isOwner(event.getUser().getIdLong()) || event.getMember().hasPermission(Permission.ADMINISTRATOR))
+            {
+                event.getTextChannel().getMessageById(event.getMessageIdLong()).queue(message -> {
+                    if(!message.getAuthor().isBot() || !QuizManager.hasWaitingPlayer(message)) return;
+                    Role role = JDAManager.getShardManager().getRoleById(QuizManager.getRoleQuizId());
+                    if(role == null) return;
+                    Member member = message.getMentionedMembers().get(0);
+                    switch (event.getReactionEmote().getName())
+                    {
+                        case "✅":
+                            QuizManager.removeWaitingPlayer(member.getUser());
+                            message.getGuild().getController().addRolesToMember(member, role).queue();
+                            message.clearReactions().queue();
+                            message.editMessage(message.getContentRaw()+"\n\n"+Language.getDefaultLanguage().get("accept", event.getUser().getAsMention())).queue();
+                            break;
+                        case "❌":
+                            QuizManager.removeWaitingPlayer(member.getUser());
+                            message.clearReactions().queue();
+                            message.editMessage(message.getContentRaw()+"\n\n"+Language.getDefaultLanguage().get("deny", event.getUser().getAsMention())).queue();
+                            break;
+                    }
+                });
+            }
+
             return;
         }
+
+        onEmote(event.getMessageIdLong(), event.getGuild(), event.getMember(), event.getReactionEmote(), true);
     }
 
     @Override
     public void onMessageReactionRemove(MessageReactionRemoveEvent event)
     {
         if(event.getUser().isBot() || event.getGuild() == null || event.getGuild().getIdLong() != GravenBot.getGuildId()) return;
+        onEmote(event.getMessageIdLong(), event.getGuild(), event.getMember(), event.getReactionEmote(), false);
+    }
 
-        if(event.getMessageIdLong() == GravenBot.getConfig().getLong("role_message"))
+    private void onEmote(long messageId, Guild guild, Member member, MessageReaction.ReactionEmote reactionEmote, boolean add)
+    {
+        if(messageId == GravenBot.getConfig().getLong("role_message"))
         {
-            RoleManager.apply(event.getGuild(), event.getMember(), event.getReactionEmote().getId() != null ? String.valueOf(event.getReactionEmote().getIdLong()) : event.getReactionEmote().getName(),false);
+            RoleManager.apply(guild, member, reactionEmote.getId() != null ? String.valueOf(reactionEmote.getIdLong()) : reactionEmote.getName(),add);
+            return;
+        }
+
+        if(messageId == GravenBot.getConfig().getLong("message_quiz"))
+        {
+            QuizManager.startNewQuiz(member);
             return;
         }
     }

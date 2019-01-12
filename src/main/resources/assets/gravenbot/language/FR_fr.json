@@ -8,6 +8,26 @@
   "not_found_role":"{WARN} L'emote %1$s n'a pas été trouvé.",
   "remove_role":"{CONFIRM} Le role avec l'emote %1$s a bien été supprimé.",
 
+  "not_question":"{WARN} Il n'y a pas de question enregistré !",
+  "not_role":"{WARN} Il n'y a pas de role enregistré !",
+  "not_channel":"{WARN} Il n'y a pas de channel enregistré !",
+
+  "message_quiz":"Règles lues et acceptées.",
+  "start_quiz":"Ce questionnaire obligatoire pour devenir Membre, ne sera visible que via les Piliers de la Communauté et les Gérants du Serveur soyez donc sans crainte, en remplissant ce questionnaire nous pourrons essayez de vous connaître un peu, il n’est pas long et seulement quelques questions seront posées",
+  "end_quiz":"Merci d’avoir répondu au questionnaire ! Si vous n’avez pas de réponse au bout de 2-3h c’est que la candidature ne respecte pas les règles et qu’il faut refaire une candidature !",
+
+  "add_question":"{CONFIRM} La question `%1$s` a bien été ajouté avec l'id `%2$s`",
+  "not_question_id":"{CANCEL} Aucune question avec cet id n'a été trouvé.",
+  "remove_question":"{CONFIRM} La question avec l'id %1$s a bien été supprimé.",
+  "move_question":"{CONFIRM} La question %1$s a bien été déplacement en %2$s.",
+  "cant_replace":"{CANCEL} Il n'y a pas de question a cette emplacement.",
+  "replace_question":"{CONFIRM} La question %2$s a bien été remplacé ! Nouvelle question: %1$s",
+  "clear_question":"{CONFIRM} La liste des questions a bien été vidé.",
+  "set_role_question":"{CONFIRM} Le role %1$s a bien été ajouté.",
+  "set_channel_question":"{CONFIRM} Le channel %1$s a bien été ajouté.",
+  "accept":"{CONFIRM} Accepté par %1$s",
+  "deny":"{CANCEL} Refusé par %1$s",
+
   "command":{
     "stop":{
       "description":"Arrêter le bot."
