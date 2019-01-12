@@ -1,0 +1,7 @@
+config.json
+out/
+logs/
+.idea/
+.gradle/
+gradle/
+src/test/
