@@ -68,6 +68,11 @@ public class Configuration
         this.object.put(key, object);
     }
 
+    public long getLong(String key)
+    {
+        return object.has(key) ? object.getLong(key) : 0L;
+    }
+
     public void save()
     {
         GravenBot.getLogger().info("Saving configuration \""+file.getName()+"\"...");

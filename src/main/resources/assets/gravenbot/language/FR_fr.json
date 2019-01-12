@@ -1,6 +1,12 @@
 {
   "stopping":"{WARN} Arrêt du bot en cours...",
   "not_permission":"{CANCEL} Vous n'êtes pas autorisé à faire cette commande.",
+  "not_role_register":"{WARN} Il n'y a pas de role enregistré !",
+  "roles_message":"Choisissez vos rôles avec les emotes ci-dessous. {DOWN}",
+  "roles_view":"Voici les roles enregistré:",
+  "new_role":"{CONFIRM} Le role %2$s a bien été ajouté avec l'emote %1$s",
+  "not_found_role":"{WARN} L'emote %1$s n'a pas été trouvé.",
+  "remove_role":"{CONFIRM} Le role avec l'emote %1$s a bien été supprimé.",
 
   "command":{
     "stop":{

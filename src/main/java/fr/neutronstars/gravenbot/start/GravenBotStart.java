@@ -4,6 +4,7 @@ import fr.neutronstars.gravenbot.GravenBot;
 import fr.neutronstars.gravenbot.command.CommandManager;
 import fr.neutronstars.gravenbot.jda.JDAManager;
 import fr.neutronstars.gravenbot.utils.Language;
+import fr.neutronstars.gravenbot.utils.RoleManager;
 import net.dv8tion.jda.bot.sharding.ShardManager;
 
 public class GravenBotStart
@@ -14,6 +15,7 @@ public class GravenBotStart
     {
         Language.register();
         CommandManager.registerCommands();
+        RoleManager.loadRoles();
 
         boolean restart = false;
 
@@ -76,6 +78,7 @@ public class GravenBotStart
 
     private static void save()
     {
+        RoleManager.saveRoles();
         GravenBot.saveConfig();
         GravenBot.saveLogger();
     }

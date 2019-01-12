@@ -3,6 +3,7 @@ package fr.neutronstars.gravenbot.jda;
 import fr.neutronstars.gravenbot.GravenBot;
 import fr.neutronstars.gravenbot.command.CommandManager;
 import fr.neutronstars.gravenbot.utils.Language;
+import fr.neutronstars.gravenbot.utils.RoleManager;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.PermissionOverride;
@@ -10,6 +11,8 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class JDAListener extends ListenerAdapter
@@ -17,7 +20,8 @@ public class JDAListener extends ListenerAdapter
     @Override
     public void onReady(ReadyEvent event)
     {
-
+        if(event.getJDA().getShardInfo().getShardId()+1 == event.getJDA().getShardInfo().getShardTotal())
+            GravenBot.getLogger().info(event.getJDA().getSelfUser().getName()+" is ready !");
     }
 
     @Override
@@ -28,7 +32,7 @@ public class JDAListener extends ListenerAdapter
         String message = event.getMessage().getContentRaw();
         String[] commands = new String[0];
 
-        String expectedPrefix = "!";
+        String expectedPrefix = GravenBot.getConfig().getOrSetDefault("prefix", "!");
 
         if(message.startsWith(event.getJDA().getSelfUser().getAsMention()))
             commands = message.replaceFirst(event.getJDA().getSelfUser().getAsMention(), "").trim().split(" ");
@@ -85,5 +89,29 @@ public class JDAListener extends ListenerAdapter
         }
 
         return member.hasPermission(Permission.MESSAGE_WRITE);
+    }
+
+    @Override
+    public void onMessageReactionAdd(MessageReactionAddEvent event)
+    {
+        if(event.getUser().isBot() || event.getGuild() == null || event.getGuild().getIdLong() != GravenBot.getGuildId()) return;
+
+        if(event.getMessageIdLong() == GravenBot.getConfig().getLong("role_message"))
+        {
+            RoleManager.apply(event.getGuild(), event.getMember(), event.getReactionEmote().getId() != null ? String.valueOf(event.getReactionEmote().getIdLong()) : event.getReactionEmote().getName(), true);
+            return;
+        }
+    }
+
+    @Override
+    public void onMessageReactionRemove(MessageReactionRemoveEvent event)
+    {
+        if(event.getUser().isBot() || event.getGuild() == null || event.getGuild().getIdLong() != GravenBot.getGuildId()) return;
+
+        if(event.getMessageIdLong() == GravenBot.getConfig().getLong("role_message"))
+        {
+            RoleManager.apply(event.getGuild(), event.getMember(), event.getReactionEmote().getId() != null ? String.valueOf(event.getReactionEmote().getIdLong()) : event.getReactionEmote().getName(),false);
+            return;
+        }
     }
 }

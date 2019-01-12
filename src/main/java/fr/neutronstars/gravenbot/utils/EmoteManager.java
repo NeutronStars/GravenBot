@@ -6,7 +6,9 @@ public enum EmoteManager
 {
     CONFIRM("{CONFIRM}", "✅"),
     CANCEL("{CANCEL}", "❌"),
-    WARNING("{WARN}", "⚠");
+    WARNING("{WARN}", "⚠"),
+
+    DOWN("{DOWN}", "⤵");
 
     private String key;
     private Object value;

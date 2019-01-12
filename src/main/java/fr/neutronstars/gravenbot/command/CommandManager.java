@@ -1,6 +1,7 @@
 package fr.neutronstars.gravenbot.command;
 
 import fr.neutronstars.gravenbot.GravenBot;
+import fr.neutronstars.gravenbot.command.admin.RoleCommand;
 import fr.neutronstars.gravenbot.command.owner.StopCommand;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
@@ -34,7 +35,7 @@ public class CommandManager
     {
         GravenBot.getLogger().info("Registering commands...");
 
-        registerCommand(new StopCommand());
+        registerCommand(new StopCommand(), new RoleCommand());
 
         GravenBot.getLogger().info(commandMap.size()+" command(s) registered.");
     }
