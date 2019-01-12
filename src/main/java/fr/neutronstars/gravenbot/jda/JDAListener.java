@@ -23,7 +23,7 @@ public class JDAListener extends ListenerAdapter
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
     {
-        if(event.getAuthor().isBot()) return;
+        if(event.getAuthor().isBot() || event.getGuild() == null || event.getGuild().getIdLong() != GravenBot.getGuildId()) return;
 
         String message = event.getMessage().getContentRaw();
         String[] commands = new String[0];
@@ -34,8 +34,6 @@ public class JDAListener extends ListenerAdapter
             commands = message.replaceFirst(event.getJDA().getSelfUser().getAsMention(), "").trim().split(" ");
         else if(message.startsWith(expectedPrefix))
             commands = message.replaceFirst(expectedPrefix, "").trim().split(" ");
-        else if(event.getGuild() == null)
-            commands = message.trim().split(" ");
 
         if(commands.length == 0) return;
 

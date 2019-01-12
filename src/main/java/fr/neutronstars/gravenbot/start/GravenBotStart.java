@@ -30,6 +30,12 @@ public class GravenBotStart
             GravenBot.getLogger().warn("Please put at least 1 owner in the \"config.json\".");
         }
 
+        if(!GravenBot.hasGuild())
+        {
+            restart = true;
+            GravenBot.getLogger().warn("Please put your guild id in the \"config.json\".");
+        }
+
         if(restart)
         {
             save();

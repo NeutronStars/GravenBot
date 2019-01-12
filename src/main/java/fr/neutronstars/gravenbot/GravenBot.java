@@ -61,4 +61,14 @@ public class GravenBot
     {
         return getConfig().getOrSetDefault("owners", new JSONArray()).toList().contains(id);
     }
+
+    public static boolean hasGuild()
+    {
+        return getConfig().getOrSetDefault("guildId", 0L) != 0L;
+    }
+
+    public static long getGuildId()
+    {
+        return (long) getConfig().get("guildId");
+    }
 }

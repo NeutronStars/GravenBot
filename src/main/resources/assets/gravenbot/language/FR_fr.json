@@ -1,4 +1,13 @@
 {
   "stopping":"{WARN} Arrêt du bot en cours...",
-  "not_permission":"{CANCEL} Vous n'êtes pas autorisé à faire cette commande."
+  "not_permission":"{CANCEL} Vous n'êtes pas autorisé à faire cette commande.",
+
+  "command":{
+    "stop":{
+      "description":"Arrêter le bot."
+    },
+    "role":{
+      "description":"Envoyer un message dans un channel avec les reactions de chaque role."
+    }
+  }
 }
