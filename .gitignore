@@ -1,7 +1,8 @@
-config.json
-out/
-logs/
-.idea/
+*.json
 .gradle/
 gradle/
+.idea/
+logs/
+out/
 src/test/
+.gitignore
