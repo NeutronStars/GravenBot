@@ -15,14 +15,7 @@ public class GravenBotStart
         Language.register();
         CommandManager.registerCommands();
 
-        ShardManager shardManager = JDAManager.getShardManager();
         boolean restart = false;
-
-        if(shardManager == null)
-        {
-            restart = true;
-            GravenBot.getLogger().warn("Insert your token in the \"config.json\".");
-        }
 
         if(!GravenBot.hasOwner())
         {
@@ -35,6 +28,17 @@ public class GravenBotStart
             restart = true;
             GravenBot.getLogger().warn("Please put your guild id in the \"config.json\".");
         }
+
+        if(!restart)
+        {
+            ShardManager shardManager = JDAManager.getShardManager();
+            if(shardManager == null)
+            {
+                restart = true;
+                GravenBot.getLogger().warn("Insert your token in the \"config.json\".");
+            }
+        }
+
 
         if(restart)
         {
