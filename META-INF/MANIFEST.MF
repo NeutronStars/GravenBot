@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: dependencies/graven_dependencies.jar
+Main-Class: fr.neutronstars.gravenbot.start.GravenBotStart
+
