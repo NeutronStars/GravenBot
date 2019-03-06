@@ -3,9 +3,10 @@ package fr.neutronstars.gravenbot.start;
 import fr.neutronstars.gravenbot.GravenBot;
 import fr.neutronstars.gravenbot.command.CommandManager;
 import fr.neutronstars.gravenbot.jda.JDAManager;
+import fr.neutronstars.gravenbot.sql.SQLManager;
 import fr.neutronstars.gravenbot.utils.Language;
-import fr.neutronstars.gravenbot.utils.QuizManager;
-import fr.neutronstars.gravenbot.utils.RoleManager;
+import fr.neutronstars.gravenbot.manager.QuizManager;
+import fr.neutronstars.gravenbot.manager.RoleManager;
 import net.dv8tion.jda.bot.sharding.ShardManager;
 
 public class GravenBotStart
@@ -42,6 +43,7 @@ public class GravenBotStart
                 restart = true;
                 GravenBot.getLogger().warn("Insert your token in the \"config.json\".");
             }
+            else restart = !SQLManager.loadSQL();
         }
 
 
@@ -84,6 +86,7 @@ public class GravenBotStart
         RoleManager.saveRoles();
         QuizManager.saveQuestion();
         QuizManager.saveWaitingPlayer();
+        GravenBot.saveAntiRoleConfiguration();
         GravenBot.saveConfig();
         GravenBot.saveLogger();
     }

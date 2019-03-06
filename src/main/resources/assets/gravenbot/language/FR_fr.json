@@ -28,6 +28,12 @@
   "accept":"{CONFIRM} Accepté par %1$s",
   "deny":"{CANCEL} Refusé par %1$s",
 
+  "cant_add_remove_role_administrator":"{CANCEL} Impossible d'ajouter ou retirer un role à un administrateur.",
+  "add_role_anti_confirm":"{CONFIRM} Le role %1$s a bien été ajouté à %2$s.",
+  "add_role_anti_error":"{CANCEL} Le role %1$s n'a pas pu être donné à %2$s.",
+  "remove_role_anti_confirm":"{CONFIRM} Le role %1$s a bien été retiré à %2$s.",
+  "remove_role_anti_error":"{CANCEL} Le role %1$s n'a pas pu être retiré à %2$s.",
+
   "command":{
     "stop":{
       "description":"Arrêter le bot."

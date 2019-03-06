@@ -2,9 +2,9 @@ package fr.neutronstars.gravenbot.command.admin;
 
 import fr.neutronstars.gravenbot.GravenBot;
 import fr.neutronstars.gravenbot.command.Command;
-import fr.neutronstars.gravenbot.utils.EmoteManager;
+import fr.neutronstars.gravenbot.manager.EmoteManager;
 import fr.neutronstars.gravenbot.utils.Language;
-import fr.neutronstars.gravenbot.utils.QuizManager;
+import fr.neutronstars.gravenbot.manager.QuizManager;
 import net.dv8tion.jda.core.entities.*;
 
 import java.util.Map;

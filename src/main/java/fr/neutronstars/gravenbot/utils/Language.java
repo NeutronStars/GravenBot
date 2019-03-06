@@ -2,6 +2,7 @@ package fr.neutronstars.gravenbot.utils;
 
 import fr.neutronstars.gravenbot.GravenBot;
 import fr.neutronstars.gravenbot.json.JSONReader;
+import fr.neutronstars.gravenbot.manager.EmoteManager;
 import org.json.JSONObject;
 
 import java.io.IOException;

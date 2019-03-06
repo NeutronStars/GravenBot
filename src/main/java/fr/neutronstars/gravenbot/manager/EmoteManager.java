@@ -1,4 +1,4 @@
-package fr.neutronstars.gravenbot.utils;
+package fr.neutronstars.gravenbot.manager;
 
 import fr.neutronstars.gravenbot.jda.JDAManager;
 

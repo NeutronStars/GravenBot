@@ -1,9 +1,12 @@
-package fr.neutronstars.gravenbot.utils;
+package fr.neutronstars.gravenbot.manager;
 
 import fr.neutronstars.gravenbot.GravenBot;
 import fr.neutronstars.gravenbot.jda.JDAManager;
 import fr.neutronstars.gravenbot.json.JSONReader;
 import fr.neutronstars.gravenbot.json.JSONWriter;
+import fr.neutronstars.gravenbot.manager.EmoteManager;
+import fr.neutronstars.gravenbot.utils.ImageBuilderQuiz;
+import fr.neutronstars.gravenbot.utils.Language;
 import net.dv8tion.jda.core.entities.*;
 import org.json.JSONObject;
 
@@ -286,7 +289,7 @@ public class QuizManager
 
                 TextChannel textChannel = JDAManager.getShardManager().getTextChannelById(getQuizChannel());
                 if(textChannel == null) return;
-                StringBuilder builder = new StringBuilder();
+                /*StringBuilder builder = new StringBuilder();
                 builder.append(member.getUser().getAsMention());
 
                 for(Map.Entry<String, String> entry : responseMap.entrySet())
@@ -297,7 +300,16 @@ public class QuizManager
                     message.addReaction(String.valueOf(EmoteManager.CANCEL.getValue())).queue();
 
                     addWaitingPlayer(member.getUser(), message);
-                });
+                });*/
+
+                new ImageBuilderQuiz(member.getUser().getIdLong()+"_question_quiz.png")
+                        .build(responseMap, 1920, 1080)
+                        .sendChannel(textChannel, member.getUser().getAsMention(), message -> {
+                            message.addReaction(String.valueOf(EmoteManager.CONFIRM.getValue())).queue();
+                            message.addReaction(String.valueOf(EmoteManager.CANCEL.getValue())).queue();
+
+                            addWaitingPlayer(member.getUser(), message);
+                        });
             }else
                 channel.sendMessage(QUIZ_MAP.get(stateQuiz)).queue();
         }

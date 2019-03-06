@@ -2,16 +2,22 @@ package fr.neutronstars.gravenbot.jda;
 
 import fr.neutronstars.gravenbot.GravenBot;
 import fr.neutronstars.gravenbot.command.CommandManager;
+import fr.neutronstars.gravenbot.utils.Configuration;
 import fr.neutronstars.gravenbot.utils.Language;
-import fr.neutronstars.gravenbot.utils.QuizManager;
-import fr.neutronstars.gravenbot.utils.RoleManager;
+import fr.neutronstars.gravenbot.manager.QuizManager;
+import fr.neutronstars.gravenbot.manager.RoleManager;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.ReadyEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JDAListener extends ListenerAdapter
 {
@@ -155,5 +161,24 @@ public class JDAListener extends ListenerAdapter
             QuizManager.startNewQuiz(member);
             return;
         }
+    }
+
+    @Override
+    public void onGuildMemberJoin(GuildMemberJoinEvent event)
+    {
+        Configuration configuration = GravenBot.getAntiRoleConfiguration();
+        if(!configuration.has(event.getUser().getId())) return;
+
+        JSONArray array = (JSONArray) configuration.get(event.getUser().getId());
+
+        List<Role> roles = new ArrayList<>();
+        for(int i = 0; i < array.length(); i++)
+        {
+            Role role = JDAManager.getShardManager().getRoleById(array.getLong(i));
+            if(role != null)
+                roles.add(role);
+        }
+
+        event.getGuild().getController().addRolesToMember(event.getMember(), roles).queue();
     }
 }

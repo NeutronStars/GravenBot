@@ -65,7 +65,10 @@ public class Configuration
 
     public void set(String key, Object object)
     {
-        this.object.put(key, object);
+        if(object == null)
+            this.object.remove(key);
+        else
+            this.object.put(key, object);
     }
 
     public long getLong(String key)
@@ -75,12 +78,12 @@ public class Configuration
 
     public void save()
     {
-        GravenBot.getLogger().info("Saving configuration \""+file.getName()+"\"...");
+        GravenBot.getLogger().info("Saving \""+file.getName()+"\"...");
         try(JSONWriter writer = new JSONWriter(file))
         {
             writer.write(object);
             writer.flush();
-            GravenBot.getLogger().info("Configuration \""+file.getName()+"\" saved.");
+            GravenBot.getLogger().info("\""+file.getName()+"\" saved.");
         }catch (IOException e)
         {
             GravenBot.getLogger().error(e.getMessage(), e);
